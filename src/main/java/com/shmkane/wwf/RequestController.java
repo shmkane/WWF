@@ -23,19 +23,21 @@ public class RequestController {
     @PostMapping("/webpageRequest")
     public String webpageRequestForm(@ModelAttribute WebpageRequest webpageRequest) {
         try {
+            //Access the web page and extract all the words
             Document doc = Jsoup.connect(webpageRequest.getUrl()).get();
+            // Use regex to filter out any numbers, and non alpha characters, convert lowercase.
             String result = doc.body().text().replaceAll("[^a-zA-Z\\s]", "").toLowerCase();
             String results[] = result.split(" ");
 
             HashMap<String, Integer> hs = new HashMap<String, Integer>();
 
             for (int i = 0; i < results.length; i++) {
-                String str = results[i];
+                String str = results[i]; //If they're too big or empty, remove them.
                 if (str.length() > 20 || str.equals("")) {
                     continue;
                 }
                 if (hs.containsKey(str)) {
-                    if (webpageRequest.isSorted()) {
+                    if (webpageRequest.isSorted()) { // We only care about the value of hashmap if we want it sorted.
                         hs.put(str, hs.get(str) + 1);
                     }
                     continue;
@@ -47,6 +49,8 @@ public class RequestController {
 
             StringBuilder stringBuilder = new StringBuilder();
             System.out.println(hs.toString());
+            //String builder the rest together based on the radio and check boxes.
+
             if (webpageRequest.isSorted())
                 hs = sortByValue(hs);
 
