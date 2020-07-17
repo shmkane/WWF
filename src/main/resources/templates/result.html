@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h1>Result</h1>
+<p th:text="'Website: ' + ${webpageRequest.url}"/>
+<p th:text="'Formatting: ' + ${webpageRequest.formattingType}"/>
+<p th:text="'Sorted: ' + ${webpageRequest.sorted}"/>
+<p th:text="'Word Only: ' + ${webpageRequest.wordOnly}"/>
+<p>Result:</p>
+<input class="text" onClick="this.select();" th:value="${#strings.unescapeJava(#strings.replace(#strings.escapeJava({webpageRequest.results}),'\n','&lt;br /&gt;'))}">
+<div class="text" th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava({webpageRequest.results}),'\n','&lt;br /&gt;'))}"></div>
+
+<a href="/webpageRequest">Submit another message</a>
+</body>
+
+</html>
